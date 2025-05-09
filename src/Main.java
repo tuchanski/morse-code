@@ -1,31 +1,57 @@
 import models.MorseTree;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         MorseTree tree = new MorseTree();
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
 
-        // Teste 1: Mostrar a árvore (opcional)
-        System.out.println("Árvore de Morse:");
-        tree.showTree();
+        do {
+            System.out.println("\n-=-=-= MENU INTERATIVO - CÓDIGO MORSE =-=-=-");
+            System.out.println("1 - Mostrar árvore Morse");
+            System.out.println("2 - Buscar código Morse de uma letra");
+            System.out.println("3 - Decodificar uma palavra em Morse");
+            System.out.println("0 - Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine();
 
-        // Teste 2: Buscar o código Morse de uma letra
-        char letra = 'S';
-        String codigoMorse = tree.search(letra);
-        System.out.println("\nLetra: " + letra + " -> Código Morse: " + codigoMorse);
+            switch (opcao) {
+                case 1:
+                    System.out.println("\nÁrvore de Morse:");
+                    tree.showTree();
+                    break;
 
-        // Teste 3: Decodificar uma palavra em Morse
-        String morse = "... --- ...";
-        String palavra = tree.translateMorseToAlphabet(morse);
-        System.out.println("\nCódigo Morse: " + morse + " -> Palavra: " + palavra);
+                case 2:
+                    System.out.print("Digite uma letra (A-Z ou 0-9): ");
+                    char letra = scanner.nextLine().toUpperCase().charAt(0);
+                    String morse = tree.search(letra);
+                    if (morse != null) {
+                        System.out.println("Código Morse: " + morse);
+                    } else {
+                        System.out.println("Letra não encontrada.");
+                    }
+                    break;
 
-        // Teste 4: Outra palavra
-        String morse2 = ".- .-.. .-.. ---";
-        String palavra2 = tree.translateMorseToAlphabet(morse2);
-        System.out.println("\nCódigo Morse: " + morse2 + " -> Palavra: " + palavra2); // "ALLO"
+                case 3:
+                    System.out.print("Digite o código Morse: ");
+                    String morseCode = scanner.nextLine();
+                    String palavra = tree.translateMorseToAlphabet(morseCode);
+                    System.out.println("Palavra decodificada: " + palavra);
+                    break;
 
-        // Teste 5: Palavra com número
-        String morse3 = ".---- ..--- ...--"; // 1 2 3
-        String palavra3 = tree.translateMorseToAlphabet(morse3);
-        System.out.println("\nCódigo Morse: " + morse3 + " -> Palavra: " + palavra3); // "123"
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+                    break;
+            }
+        } while (opcao != 0);
+
+        scanner.close();
     }
 }
